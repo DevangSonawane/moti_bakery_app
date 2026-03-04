@@ -6,8 +6,9 @@ import 'package:moti_bakery_app/main.dart';
 void main() {
   testWidgets('shows login screen', (WidgetTester tester) async {
     await tester.pumpWidget(const ProviderScope(child: MotiBakeryApp()));
+    await tester.pumpAndSettle();
 
-    expect(find.text('MOTIBAKERY'), findsOneWidget);
-    expect(find.text('Login'), findsOneWidget);
+    expect(find.text('Sign in to your account'), findsOneWidget);
+    expect(find.text('Sign In'), findsOneWidget);
   });
 }

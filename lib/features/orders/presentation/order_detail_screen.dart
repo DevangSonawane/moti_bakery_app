@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../app/theme.dart';
 import '../../../shared/models/order.dart';
 import '../../../shared/widgets/status_badge.dart';
 
@@ -19,33 +20,57 @@ class OrderDetailScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(order.id, style: const TextStyle(fontWeight: FontWeight.w700)),
+              Text(
+                order.id,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: AppColors.primary,
+                      fontFamily: 'monospace',
+                    ),
+              ),
               StatusBadge(status: order.status),
             ],
           ),
           const SizedBox(height: 16),
-          _line('Cake', order.cakeName),
-          _line('Flavour', order.flavour),
-          _line('Weight', '${order.weight.toStringAsFixed(1)} kg'),
-          _line('Delivery Date', DateFormat('dd MMM yyyy').format(order.deliveryDate)),
-          _line('Customer', order.customerName ?? '-'),
-          _line('Notes', order.notes ?? '-'),
-          _line('Total', '₹ ${order.totalPrice.toStringAsFixed(2)}'),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  _line(context, 'Cake', order.cakeName),
+                  _line(context, 'Flavour', order.flavour),
+                  _line(context, 'Weight', '${order.weight.toStringAsFixed(1)} kg'),
+                  _line(
+                    context,
+                    'Delivery',
+                    DateFormat('dd MMM yyyy').format(order.deliveryDate),
+                  ),
+                  _line(context, 'Customer', order.customerName ?? '-'),
+                  _line(context, 'Notes', order.notes ?? '-'),
+                  _line(context, 'Total', '₹ ${order.totalPrice.toStringAsFixed(2)}'),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _line(String label, String value) {
+  Widget _line(BuildContext context, String label, String value) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         children: <Widget>[
-          SizedBox(width: 110, child: Text(label)),
+          SizedBox(
+            width: 98,
+            child: Text(label, style: Theme.of(context).textTheme.bodyMedium),
+          ),
           Expanded(
             child: Text(
               value,
-              style: const TextStyle(fontWeight: FontWeight.w600),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
             ),
           ),
         ],
